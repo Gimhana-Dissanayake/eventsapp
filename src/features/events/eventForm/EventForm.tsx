@@ -1,3 +1,4 @@
+import cuid from "cuid";
 import { useState } from "react";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
 import { Event } from "./../../../app/models/Event";
@@ -5,6 +6,7 @@ import { Event } from "./../../../app/models/Event";
 interface Props {
   setFormOpen: (value: boolean) => void;
   setEvents: (event: Event[]) => void;
+  createEvent: (event: Event) => void;
 }
 
 export default function EventForm(props: Props) {
@@ -20,7 +22,14 @@ export default function EventForm(props: Props) {
   const [values, setValues] = useState(initialValues);
 
   const handleFormSubmit = () => {
-    console.log("values ", values);
+    props.createEvent({
+      ...values,
+      id: cuid(),
+      hostedBy: "Bob",
+      attendees: [],
+      hostPhotoURL: "/assets/user.png",
+    });
+    props.setFormOpen(false);
   };
 
   const handleInputChange = (e: any) => {
