@@ -18,7 +18,9 @@ export default function EventDashboard(props: Props) {
         <EventList events={events} />
       </Grid.Column>
       <Grid.Column width={6}>
-        {props.formOpen && <EventForm setFormOpen={props.setFormOpen} />}
+        {props.formOpen && (
+          <EventForm setFormOpen={props.setFormOpen} setEvents={setEvents} />
+        )}
       </Grid.Column>
     </Grid>
   );
