@@ -1,13 +1,17 @@
 import React from "react";
+import { Event } from "./../../../app/models/Event";
 import EventListItem from "./EventListItem";
 
-export default function EventList() {
+interface Props {
+  events: Event[];
+}
+
+export default function EventList(props: Props) {
   return (
     <>
-      <EventListItem />
-      <EventListItem />
-      <EventListItem />
-      <EventListItem />
+      {props.events.map((event) => (
+        <EventListItem event={event} key={event.id} />
+      ))}
     </>
   );
 }
