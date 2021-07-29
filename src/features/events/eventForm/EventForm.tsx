@@ -5,12 +5,12 @@ import { Event } from "./../../../app/models/Event";
 
 interface Props {
   setFormOpen: (value: boolean) => void;
-  setEvents: (event: Event[]) => void;
   createEvent: (event: Event) => void;
+  selectedEvent: Event | null;
 }
 
 export default function EventForm(props: Props) {
-  const initialValues = {
+  const initialValues = props.selectedEvent ?? {
     title: "",
     category: "",
     description: "",

@@ -4,13 +4,18 @@ import EventListItem from "./EventListItem";
 
 interface Props {
   events: Event[];
+  selectEvent: (event: Event) => void;
 }
 
 export default function EventList(props: Props) {
   return (
     <>
       {props.events.map((event) => (
-        <EventListItem event={event} key={event.id} />
+        <EventListItem
+          event={event}
+          key={event.id}
+          selectEvent={props.selectEvent}
+        />
       ))}
     </>
   );

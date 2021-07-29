@@ -5,6 +5,7 @@ import EventListAttendee from "./EventListAttendee";
 
 interface Props {
   event: Event;
+  selectEvent: (event: Event) => void;
 }
 
 export default function EventListItem(props: Props) {
@@ -39,7 +40,14 @@ export default function EventListItem(props: Props) {
       </Segment>
       <Segment clearing>
         <div>{props.event.description}</div>
-        <Button color="teal" floated="right" content="View" />
+        <Button
+          onClick={() => {
+            props.selectEvent(props.event);
+          }}
+          color="teal"
+          floated="right"
+          content="View"
+        />
       </Segment>
     </Segment.Group>
   );
