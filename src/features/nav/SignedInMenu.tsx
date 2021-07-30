@@ -2,7 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Dropdown, Image, Menu } from "semantic-ui-react";
 
-const SignedInMenu = () => {
+interface Props {
+  setAuthenticated: (value: boolean) => void;
+}
+
+const SignedInMenu = (props: Props) => {
   return (
     <Menu.Item position="right">
       <Image avatar spaced="right" src="/assets/user.png" />
@@ -15,7 +19,11 @@ const SignedInMenu = () => {
             icon="plus"
           />
           <Dropdown.Item text="My profile" icon="user" />
-          <Dropdown.Item text="Sign out" icon="power" />
+          <Dropdown.Item
+            text="Sign out"
+            icon="power"
+            onClick={() => props.setAuthenticated(false)}
+          />
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>
