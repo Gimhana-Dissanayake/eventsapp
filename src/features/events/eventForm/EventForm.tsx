@@ -40,7 +40,9 @@ export default function EventForm(props: Props) {
 
   return (
     <Segment clearing>
-      <Header content="Create new event"></Header>
+      <Header
+        content={props.selectedEvent ? "Edit the event" : "Create new event"}
+      ></Header>
       <Form onSubmit={handleFormSubmit}>
         <Form.Field>
           <input

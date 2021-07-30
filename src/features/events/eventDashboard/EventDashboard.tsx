@@ -30,6 +30,7 @@ export default function EventDashboard(props: Props) {
             setFormOpen={props.setFormOpen}
             createEvent={handleCreateEvent}
             selectedEvent={props.selectedEvent}
+            key={props.selectedEvent ? props.selectedEvent.id : null}
           />
         )}
       </Grid.Column>
