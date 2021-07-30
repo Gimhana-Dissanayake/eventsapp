@@ -7,6 +7,7 @@ interface Props {
   setFormOpen: (value: boolean) => void;
   createEvent: (event: Event) => void;
   selectedEvent: Event | null;
+  updateEvent: (event: Event) => void;
 }
 
 export default function EventForm(props: Props) {
@@ -22,13 +23,15 @@ export default function EventForm(props: Props) {
   const [values, setValues] = useState(initialValues);
 
   const handleFormSubmit = () => {
-    props.createEvent({
-      ...values,
-      id: cuid(),
-      hostedBy: "Bob",
-      attendees: [],
-      hostPhotoURL: "/assets/user.png",
-    });
+    props.selectedEvent
+      ? props.updateEvent({ ...props.selectedEvent, ...values })
+      : props.createEvent({
+          ...values,
+          id: cuid(),
+          hostedBy: "Bob",
+          attendees: [],
+          hostPhotoURL: "/assets/user.png",
+        });
     props.setFormOpen(false);
   };
 

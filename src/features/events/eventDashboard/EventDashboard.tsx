@@ -8,7 +8,7 @@ import EventList from "./EventList";
 interface Props {
   formOpen: boolean;
   setFormOpen: (value: boolean) => void;
-  selectEvent: (event: Event) => void;
+  selectEvent: (event: Event | null) => void;
   selectedEvent: Event | null;
 }
 
@@ -17,6 +17,13 @@ export default function EventDashboard(props: Props) {
 
   const handleCreateEvent = (event: Event) => {
     setEvents([...events, event]);
+  };
+
+  const handleUpdateEvent = (updatedEvent: Event) => {
+    setEvents(
+      events.map((evt) => (evt.id === updatedEvent.id ? updatedEvent : evt))
+    );
+    props.selectEvent(null);
   };
 
   return (
@@ -30,6 +37,7 @@ export default function EventDashboard(props: Props) {
             setFormOpen={props.setFormOpen}
             createEvent={handleCreateEvent}
             selectedEvent={props.selectedEvent}
+            updateEvent={handleUpdateEvent}
             key={props.selectedEvent ? props.selectedEvent.id : null}
           />
         )}
