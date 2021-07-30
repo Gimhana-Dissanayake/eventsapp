@@ -6,6 +6,7 @@ import EventListAttendee from "./EventListAttendee";
 interface Props {
   event: Event;
   selectEvent: (event: Event) => void;
+  deleteEvent: (eventId: string) => void;
 }
 
 export default function EventListItem(props: Props) {
@@ -40,6 +41,14 @@ export default function EventListItem(props: Props) {
       </Segment>
       <Segment clearing>
         <div>{props.event.description}</div>
+        <Button
+          onClick={() => {
+            props.deleteEvent(props.event.id);
+          }}
+          color="red"
+          floated="right"
+          content="Delete"
+        />
         <Button
           onClick={() => {
             props.selectEvent(props.event);
