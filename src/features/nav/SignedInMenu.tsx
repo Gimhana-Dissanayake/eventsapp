@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Dropdown, Image, Menu } from "semantic-ui-react";
 
 interface Props {
-  setAuthenticated: (value: boolean) => void;
+  signOut: () => void;
 }
 
 const SignedInMenu = (props: Props) => {
@@ -19,11 +19,7 @@ const SignedInMenu = (props: Props) => {
             icon="plus"
           />
           <Dropdown.Item text="My profile" icon="user" />
-          <Dropdown.Item
-            text="Sign out"
-            icon="power"
-            onClick={() => props.setAuthenticated(false)}
-          />
+          <Dropdown.Item text="Sign out" icon="power" onClick={props.signOut} />
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>

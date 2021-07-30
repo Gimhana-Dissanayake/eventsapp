@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { Button, Container, Menu } from "semantic-ui-react";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutMenu from "./SignedOutMenu";
@@ -9,7 +9,13 @@ interface Props {
 }
 
 export default function NavBar(props: Props) {
+  const history = useHistory();
   const [authenticated, setAuthenticated] = useState(false);
+
+  const handleSignOut = () => {
+    setAuthenticated(false);
+    history.push("/");
+  };
 
   return (
     <Menu inverted fixed="top">
@@ -27,7 +33,7 @@ export default function NavBar(props: Props) {
         )}
 
         {authenticated ? (
-          <SignedInMenu setAuthenticated={setAuthenticated} />
+          <SignedInMenu signOut={handleSignOut} />
         ) : (
           <SignedOutMenu setAuthenticated={setAuthenticated} />
         )}
