@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Button, Container, Menu } from "semantic-ui-react";
+import SignedInMenu from "./SignedInMenu";
+import SignedOutMenu from "./SignedOutMenu";
 
 interface Props {
   setFormOpen: (value: boolean) => void;
@@ -17,15 +19,8 @@ export default function NavBar(props: Props) {
         <Menu.Item as={NavLink} to="/createEvent">
           <Button positive inverted content="Create Event" />
         </Menu.Item>
-        <Menu.Item position="right">
-          <Button basic inverted content="Login" />
-          <Button
-            basic
-            inverted
-            content="Register"
-            style={{ marginLeft: "0.5em" }}
-          />
-        </Menu.Item>
+        <SignedOutMenu />
+        <SignedInMenu />
       </Container>
     </Menu>
   );
