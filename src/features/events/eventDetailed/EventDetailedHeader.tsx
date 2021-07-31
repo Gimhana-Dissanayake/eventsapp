@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
@@ -39,7 +40,7 @@ const EventDetailedHeader = (props: Props) => {
                   content={props.event.title}
                   style={{ color: "white" }}
                 />
-                <p>{props.event.date}</p>
+                <p>{format(props.event.date, "MMMM d, yyyy h:mm a")}</p>
                 <p>
                   Hosted by <strong>{props.event.hostedBy}</strong>
                 </p>
