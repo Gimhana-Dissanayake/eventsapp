@@ -18,6 +18,6 @@ export const updateEvent = (event: Event) => {
 export const deleteEvent = (eventId: string) => {
   return {
     type: DELETE_EVENT,
-    payload: event,
+    payload: eventId,
   };
 };

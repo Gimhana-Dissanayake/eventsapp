@@ -19,12 +19,10 @@ export default function EventDashboard(props: Props) {
   //   );
   // };
 
-  const handleDeleteEvent = (eventId: string) => {};
-
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList events={events} deleteEvent={handleDeleteEvent} />
+        <EventList events={events} />
       </Grid.Column>
       <Grid.Column width={6}>
         <h3>Event Filters</h3>

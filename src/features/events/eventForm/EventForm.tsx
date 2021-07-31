@@ -1,18 +1,21 @@
 import cuid from "cuid";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Form, Header, Segment } from "semantic-ui-react";
-import { Event } from "./../../../app/models/Event";
+import { RootState } from "../../../app/store/rootReducer";
+import { createEvent, updateEvent } from "../eventActions";
 
-interface Props {
-  setFormOpen: (value: boolean) => void;
-  createEvent: (event: Event) => void;
-  selectedEvent: Event | null;
-  updateEvent: (event: Event) => void;
-}
+export default function EventForm(props: RouteComponentProps) {
+  const params: any = props.match.params;
 
-export default function EventForm(props: Props) {
-  const initialValues = props.selectedEvent ?? {
+  const selectedEvent = useSelector((state: RootState) =>
+    state.event.events.find((e) => e.id === params.id)
+  );
+
+  const dispatch = useDispatch();
+
+  const initialValues = selectedEvent ?? {
     title: "",
     category: "",
     description: "",
@@ -24,16 +27,17 @@ export default function EventForm(props: Props) {
   const [values, setValues] = useState(initialValues);
 
   const handleFormSubmit = () => {
-    props.selectedEvent
-      ? props.updateEvent({ ...props.selectedEvent, ...values })
-      : props.createEvent({
-          ...values,
-          id: cuid(),
-          hostedBy: "Bob",
-          attendees: [],
-          hostPhotoURL: "/assets/user.png",
-        });
-    props.setFormOpen(false);
+    selectedEvent
+      ? dispatch(updateEvent({ selectedEvent, ...values }))
+      : dispatch(
+          createEvent({
+            ...values,
+            id: cuid(),
+            hostedBy: "Bob",
+            attendees: [],
+            hostPhotoURL: "/assets/user.png",
+          })
+        );
   };
 
   const handleInputChange = (e: any) => {
@@ -45,7 +49,7 @@ export default function EventForm(props: Props) {
   return (
     <Segment clearing>
       <Header
-        content={props.selectedEvent ? "Edit the event" : "Create new event"}
+        content={selectedEvent ? "Edit the event" : "Create new event"}
       ></Header>
       <Form onSubmit={handleFormSubmit}>
         <Form.Field>
