@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Header, Segment } from "semantic-ui-react";
 import * as Yup from "yup";
+import MyTextArea from "../../../app/common/form/MyTextArea";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import { RootState } from "../../../app/store/rootReducer";
 import { createEvent, updateEvent } from "../eventActions";
@@ -59,7 +60,7 @@ export default function EventForm(props: RouteComponentProps) {
           <Header sub color="teal" content="Event Details" />
           <MyTextInput name="title" placeholder="Event title" />
           <MyTextInput name="category" placeholder="Event category" />
-          <MyTextInput name="description" placeholder="Description" />
+          <MyTextArea name="description" placeholder="Description" rows={3} />
           <Header sub color="teal" content="Event Location Details" />
           <MyTextInput name="city" placeholder="City" />
           <MyTextInput name="venue" placeholder="Venue" />
