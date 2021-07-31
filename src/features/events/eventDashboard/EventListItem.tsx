@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Icon, Item, List, Segment } from "semantic-ui-react";
 import { Event } from "./../../../app/models/Event";
 import EventListAttendee from "./EventListAttendee";
@@ -50,9 +51,8 @@ export default function EventListItem(props: Props) {
           content="Delete"
         />
         <Button
-          onClick={() => {
-            props.selectEvent(props.event);
-          }}
+          as={Link}
+          to={`/events/${props.event.id}`}
           color="teal"
           floated="right"
           content="View"
