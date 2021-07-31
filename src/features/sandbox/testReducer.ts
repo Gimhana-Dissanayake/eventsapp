@@ -37,5 +37,3 @@ export const testReducer = (state = initialState, action: any) => {
       return state;
   }
 };
-
-export type RootState = ReturnType<typeof testReducer>;

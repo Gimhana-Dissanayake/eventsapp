@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "semantic-ui-react";
-import { decrement, increment, RootState } from "./testReducer";
+import { RootState } from "../../app/store/rootReducer";
+import { decrement, increment } from "./testReducer";
 
 const Sandbox = () => {
   const dispatch = useDispatch();
 
-  const data = useSelector((state: RootState) => state.data);
+  const data = useSelector((state: RootState) => state.test.data);
 
   return (
     <>
