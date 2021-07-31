@@ -1,8 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
+import { Event } from "../../../app/models/Event";
 
-const EventDetailedHeader = () => {
+interface Props {
+  event: Event;
+}
+
+const EventDetailedHeader = (props: Props) => {
   const eventImageStyle = {
     filter: "brightness(30%)",
   };
@@ -20,7 +25,7 @@ const EventDetailedHeader = () => {
     <Segment.Group>
       <Segment basic attached="top" style={{ padding: "0" }}>
         <Image
-          src={`/assets/categoryImages/drinks.jpg`}
+          src={`/assets/categoryImages/${props.event.category}.jpg`}
           fluid
           style={eventImageStyle}
         />
@@ -31,12 +36,12 @@ const EventDetailedHeader = () => {
               <Item.Content>
                 <Header
                   size="huge"
-                  content="Event Title"
+                  content={props.event.title}
                   style={{ color: "white" }}
                 />
-                <p>Event Date</p>
+                <p>{props.event.date}</p>
                 <p>
-                  Hosted by <strong>Bob</strong>
+                  Hosted by <strong>{props.event.hostedBy}</strong>
                 </p>
               </Item.Content>
             </Item>
