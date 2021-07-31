@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import App from "./app/layout/App";
 import "./app/layout/styles.css";
+import { configureStore } from "./app/store/configureStore";
 import reportWebVitals from "./reportWebVitals";
 
+const store = configureStore();
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
 
   document.getElementById("root")
 );
