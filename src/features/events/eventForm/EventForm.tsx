@@ -1,11 +1,9 @@
-import cuid from "cuid";
-import { Field, Form, Formik } from "formik";
-import { useState } from "react";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Button, FormField, Header, Segment } from "semantic-ui-react";
+import { Button, FormField, Header, Label, Segment } from "semantic-ui-react";
+import * as Yup from "yup";
 import { RootState } from "../../../app/store/rootReducer";
-import { createEvent, updateEvent } from "../eventActions";
 
 export default function EventForm(props: RouteComponentProps) {
   const params: any = props.match.params;
@@ -25,28 +23,26 @@ export default function EventForm(props: RouteComponentProps) {
     date: "",
   };
 
-  const [values, setValues] = useState(initialValues);
+  const validationSchema = Yup.object({
+    title: Yup.string().required("You must provide a title"),
+  });
 
-  const handleFormSubmit = () => {
-    selectedEvent
-      ? dispatch(updateEvent({ selectedEvent, ...values }))
-      : dispatch(
-          createEvent({
-            ...values,
-            id: cuid(),
-            hostedBy: "Bob",
-            attendees: [],
-            hostPhotoURL: "/assets/user.png",
-          })
-        );
-    props.history.push("/events");
-  };
+  // const [values, setValues] = useState(initialValues);
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-
-    setValues({ ...values, [name]: value });
-  };
+  // const handleFormSubmit = () => {
+  //   selectedEvent
+  //     ? dispatch(updateEvent({ selectedEvent, ...values }))
+  //     : dispatch(
+  //         createEvent({
+  //           ...values,
+  //           id: cuid(),
+  //           hostedBy: "Bob",
+  //           attendees: [],
+  //           hostPhotoURL: "/assets/user.png",
+  //         })
+  //       );
+  //   props.history.push("/events");
+  // };
 
   return (
     <Segment clearing>
@@ -55,11 +51,16 @@ export default function EventForm(props: RouteComponentProps) {
       ></Header>
       <Formik
         initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={(values) => console.log(values)}
       >
         <Form className="ui form">
           <FormField>
             <Field name="title" placeholder="Event title" />
+            <ErrorMessage
+              name="title"
+              render={(error) => <Label basic color="red" content={error} />}
+            />
           </FormField>
           <FormField>
             <Field name="category" placeholder="Category" />
