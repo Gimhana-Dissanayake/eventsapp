@@ -38,6 +38,7 @@ export default function EventForm(props: RouteComponentProps) {
             hostPhotoURL: "/assets/user.png",
           })
         );
+    props.history.push("/events");
   };
 
   const handleInputChange = (e: any) => {

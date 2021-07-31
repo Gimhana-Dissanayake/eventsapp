@@ -9,16 +9,6 @@ interface Props {}
 export default function EventDashboard(props: Props) {
   const { events } = useSelector((state: RootState) => state.event);
 
-  // const handleCreateEvent = (event: Event) => {
-  //   setEvents([...events, event]);
-  // };
-
-  // const handleUpdateEvent = (updatedEvent: Event) => {
-  //   setEvents(
-  //     events.map((evt) => (evt.id === updatedEvent.id ? updatedEvent : evt))
-  //   );
-  // };
-
   return (
     <Grid>
       <Grid.Column width={10}>
