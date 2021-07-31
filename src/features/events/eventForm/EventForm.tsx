@@ -5,6 +5,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { Button, Header, Segment } from "semantic-ui-react";
 import * as Yup from "yup";
 import { categoryData } from "../../../app/api/categoryOptions";
+import MyDateInput from "../../../app/common/form/MyDateInput";
 import MySelectInput from "../../../app/common/form/MySelectInput";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MyTextInput from "../../../app/common/form/MyTextInput";
@@ -70,7 +71,14 @@ export default function EventForm(props: RouteComponentProps) {
           <Header sub color="teal" content="Event Location Details" />
           <MyTextInput name="city" placeholder="City" />
           <MyTextInput name="venue" placeholder="Venue" />
-          <MyTextInput name="date" placeholder="Event date" type="date" />
+          <MyDateInput
+            name="date"
+            placeholderText="Event date"
+            timeFormat="HH:mm"
+            showTimeSelect
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm a"
+          />
 
           <Button
             type="submit"
