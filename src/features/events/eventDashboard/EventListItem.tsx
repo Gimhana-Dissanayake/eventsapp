@@ -6,7 +6,7 @@ import EventListAttendee from "./EventListAttendee";
 
 interface Props {
   event: Event;
-  selectEvent: (event: Event) => void;
+
   deleteEvent: (eventId: string) => void;
 }
 

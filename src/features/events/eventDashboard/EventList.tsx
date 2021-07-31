@@ -4,7 +4,6 @@ import EventListItem from "./EventListItem";
 
 interface Props {
   events: Event[];
-  selectEvent: (event: Event) => void;
   deleteEvent: (eventId: string) => void;
 }
 
@@ -15,7 +14,6 @@ export default function EventList(props: Props) {
         <EventListItem
           event={event}
           key={event.id}
-          selectEvent={props.selectEvent}
           deleteEvent={props.deleteEvent}
         />
       ))}

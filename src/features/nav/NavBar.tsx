@@ -4,9 +4,7 @@ import { Button, Container, Menu } from "semantic-ui-react";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutMenu from "./SignedOutMenu";
 
-interface Props {
-  setFormOpen: (value: boolean) => void;
-}
+interface Props {}
 
 export default function NavBar(props: Props) {
   const history = useHistory();
