@@ -16,7 +16,7 @@ export default function EventForm(props: RouteComponentProps) {
   const params: any = props.match.params;
 
   const selectedEvent = useSelector((state: RootState) =>
-    state.event.events.find((e) => e.id === params.id)
+    state.event.events.find((e: any) => e.id === params.id)
   );
 
   const dispatch = useDispatch();

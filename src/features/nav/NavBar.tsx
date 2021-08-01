@@ -1,19 +1,14 @@
-import { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { Button, Container, Menu } from "semantic-ui-react";
+import { RootState } from "../../app/store/rootReducer";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutMenu from "./SignedOutMenu";
 
 interface Props {}
 
 export default function NavBar(props: Props) {
-  const history = useHistory();
-  const [authenticated, setAuthenticated] = useState(false);
-
-  const handleSignOut = () => {
-    setAuthenticated(false);
-    history.push("/");
-  };
+  const { authenticated } = useSelector((state: RootState) => state.auth);
 
   return (
     <Menu inverted fixed="top">
@@ -31,11 +26,7 @@ export default function NavBar(props: Props) {
           </Menu.Item>
         )}
 
-        {authenticated ? (
-          <SignedInMenu signOut={handleSignOut} />
-        ) : (
-          <SignedOutMenu setAuthenticated={setAuthenticated} />
-        )}
+        {authenticated ? <SignedInMenu /> : <SignedOutMenu />}
       </Container>
     </Menu>
   );

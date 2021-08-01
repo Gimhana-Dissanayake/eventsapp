@@ -5,7 +5,7 @@ import TestModal from "../../../features/sandbox/TestModal";
 import { RootState } from "../../store/rootReducer";
 
 const ModalManager = () => {
-  const modalLookup = {
+  const modalLookup: any = {
     TestModal,
     LoginForm,
   };

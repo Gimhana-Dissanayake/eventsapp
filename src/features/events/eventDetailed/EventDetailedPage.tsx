@@ -12,7 +12,7 @@ const EventDetailedPage = (props: RouteComponentProps) => {
   const params: any = props.match.params;
 
   const event = useSelector((state: RootState) =>
-    state.event.events.find((e) => e.id === params.id)
+    state.event.events.find((e: any) => e.id === params.id)
   );
 
   return (
