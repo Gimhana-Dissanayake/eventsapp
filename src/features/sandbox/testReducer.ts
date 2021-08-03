@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   asyncActionError,
   asyncActionFinish,
@@ -14,6 +15,7 @@ export const increment = (amount: number) => {
 
     try {
       await delay(1000);
+
       dispatch({ type: INCREMENT_COUNTER, payload: amount });
       dispatch(asyncActionFinish());
     } catch (error) {
@@ -31,6 +33,7 @@ export const decrement = (amount: number) => {
       dispatch(asyncActionFinish());
     } catch (error) {
       dispatch(asyncActionError(error));
+      toast.error(error);
     }
   };
 };
