@@ -10,11 +10,14 @@ const Sandbox = () => {
 
   const data = useSelector((state: RootState) => state.test.data);
 
+  const { loading } = useSelector((state: RootState) => state.async);
+
   return (
     <>
       <h1>Testing 123</h1>
       <h3>The data is: {`${data}`}</h3>
       <Button
+        loading={loading}
         onClick={() => {
           dispatch(increment(20));
         }}
@@ -22,6 +25,7 @@ const Sandbox = () => {
         color="green"
       />
       <Button
+        loading={loading}
         onClick={() => {
           dispatch(decrement(10));
         }}
