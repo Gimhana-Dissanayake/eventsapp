@@ -36,7 +36,7 @@ const EventDetailedInfo = (props: Props) => {
             <Icon name="marker" size="large" color="teal" />
           </Grid.Column>
           <Grid.Column width={11}>
-            <span>{props.event.venue}</span>
+            <span>{props.event.venue.address}</span>
           </Grid.Column>
           <Grid.Column width={4}>
             <Button color="teal" size="tiny" content="Show Map" />

@@ -1,4 +1,5 @@
 import { Attendee } from "./Attendee";
+import { Coodinate } from "./Coodinate";
 
 export interface Event {
   id: string;
@@ -6,8 +7,8 @@ export interface Event {
   date: Date;
   category: string;
   description: string;
-  city: string;
-  venue: string;
+  city: Coodinate;
+  venue: Coodinate;
   hostedBy: string;
   hostPhotoURL: string;
   attendees: Attendee[];
