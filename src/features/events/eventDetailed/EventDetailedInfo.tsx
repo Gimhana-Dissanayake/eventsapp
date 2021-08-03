@@ -1,13 +1,16 @@
 import { format } from "date-fns";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Grid, Icon, Segment } from "semantic-ui-react";
 import { Event } from "../../../app/models/Event";
+import EventDetailedMap from "./EventDetailedMap";
 
 interface Props {
   event: Event;
 }
 
 const EventDetailedInfo = (props: Props) => {
+  const [mapOpen, setMapOpenToggle] = useState(false);
+
   return (
     <Segment.Group>
       <Segment attached="top">
@@ -39,10 +42,16 @@ const EventDetailedInfo = (props: Props) => {
             <span>{props.event.venue.address}</span>
           </Grid.Column>
           <Grid.Column width={4}>
-            <Button color="teal" size="tiny" content="Show Map" />
+            <Button
+              onClick={() => setMapOpenToggle(!mapOpen)}
+              color="teal"
+              size="tiny"
+              content={mapOpen ? "Hide Map" : "Show Map"}
+            />
           </Grid.Column>
         </Grid>
       </Segment>
+      {mapOpen && <EventDetailedMap latLng={props.event.venue.latlng} />}
     </Segment.Group>
   );
 };
