@@ -1,5 +1,29 @@
+import {
+  asyncActionError,
+  asyncActionFinish,
+  asyncActionStart,
+} from "../../app/async/asyncReducer";
 import { Event } from "../../app/models/Event";
-import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from "./eventConstants";
+import { fetchSampleData } from "./../../app/api/mockApi";
+import {
+  CREATE_EVENT,
+  DELETE_EVENT,
+  FETCH_EVENTS,
+  UPDATE_EVENT,
+} from "./eventConstants";
+
+export const loadEvents = () => {
+  return async function (dispatch: any) {
+    dispatch(asyncActionStart());
+    try {
+      const events = await fetchSampleData();
+      dispatch({ type: FETCH_EVENTS, payload: events });
+      dispatch(asyncActionFinish());
+    } catch (error) {
+      dispatch(asyncActionError(error));
+    }
+  };
+};
 
 export const createEvent = (event: Event) => {
   return {
