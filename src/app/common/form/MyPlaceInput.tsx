@@ -16,6 +16,13 @@ const MyPlaceInput = ({ label, options, ...props }: any) => {
       .catch((error) => helpers.setError(error));
   };
 
+  const handleBlur = (e: any) => {
+    field.onBlur(e);
+    if (field.value.latLng) {
+      helpers.setValue({ address: "", latLng: null });
+    }
+  };
+
   return (
     <PlacesAutocomplete
       value={field.value["address"]}
@@ -25,9 +32,16 @@ const MyPlaceInput = ({ label, options, ...props }: any) => {
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <FormField error={meta.touched && !!meta.error}>
-          <input {...getInputProps({ name: field.name, ...props })} />
+          <input
+            {...getInputProps({
+              name: field.name,
+              onBlur: (e: any) => handleBlur(e),
+              ...props,
+            })}
+          />
           {meta.touched && meta.error ? (
             <Label basic color="red">
+              {/* meta.error['address']  this what it should be below*/}
               {meta.error}
             </Label>
           ) : null}
