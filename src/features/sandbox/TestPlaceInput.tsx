@@ -4,7 +4,11 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 
-const TextPlaceInput = () => {
+interface Props {
+  setLocation: (value: any) => void;
+}
+
+const TextPlaceInput = (props: Props) => {
   const [address, setAddress] = useState("");
 
   const handleChange = (address: any) => {
@@ -14,7 +18,10 @@ const TextPlaceInput = () => {
   const handleSelect = (address: any) => {
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log("Success", latLng))
+      .then((latLng) => {
+        console.log("Success", latLng);
+        props.setLocation(latLng);
+      })
       .catch((error) => console.error("Error", error));
     setAddress(address);
   };
