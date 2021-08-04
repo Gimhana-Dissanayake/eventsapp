@@ -25,6 +25,13 @@ export const loadEvents = () => {
   };
 };
 
+export const listenToEvents = (events: any) => {
+  return {
+    type: FETCH_EVENTS,
+    payload: events,
+  };
+};
+
 export const createEvent = (event: Event) => {
   return {
     type: CREATE_EVENT,
