@@ -1,8 +1,9 @@
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect, RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Header, Segment } from "semantic-ui-react";
+import { Button, Confirm, Header, Segment } from "semantic-ui-react";
 import * as Yup from "yup";
 import { categoryData } from "../../../app/api/categoryOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
@@ -17,6 +18,7 @@ import {
 } from "../../../app/firestore/firestoreService";
 import useFirestoreDoc from "../../../app/hooks/useFirestoreDoc";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { Event } from "../../../app/models/Event";
 import { RootState } from "../../../app/store/rootReducer";
 import { listenToEvents } from "../eventActions";
 
@@ -24,6 +26,9 @@ export default function EventForm(props: RouteComponentProps) {
   const params: any = props.match.params;
 
   const dispatch = useDispatch();
+
+  const [loadingCancel, setLoadingCancel] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const selectedEvent = useSelector((state: RootState) =>
     state.event.events.find((e: any) => e.id === params.id)
@@ -48,6 +53,18 @@ export default function EventForm(props: RouteComponentProps) {
     venue: Yup.string().required(),
     date: Yup.string().required(),
   });
+
+  const handleCancelToggle = async (event: Event) => {
+    setConfirmOpen(false);
+    setLoadingCancel(true);
+    try {
+      await cancelEventToggle(event);
+      setLoadingCancel(false);
+    } catch (error) {
+      setLoadingCancel(false);
+      toast.error(error.message);
+    }
+  };
 
   useFirestoreDoc({
     shouldExecute: !!params.id,
@@ -102,6 +119,7 @@ export default function EventForm(props: RouteComponentProps) {
 
             {selectedEvent && (
               <Button
+                loading={loadingCancel}
                 type="button"
                 floated="left"
                 color={selectedEvent.isCancelled ? "green" : "red"}
@@ -110,7 +128,7 @@ export default function EventForm(props: RouteComponentProps) {
                     ? "Reactivate Event"
                     : "Cancel Event"
                 }
-                onClick={() => cancelEventToggle(selectedEvent)}
+                onClick={() => setConfirmOpen(true)}
               />
             )}
 
@@ -133,6 +151,16 @@ export default function EventForm(props: RouteComponentProps) {
           </Form>
         )}
       </Formik>
+      <Confirm
+        content={
+          selectedEvent?.isCancelled
+            ? "This will reactivate the event - are you sure?"
+            : "This will cancel the event - are you sure"
+        }
+        open={confirmOpen}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={() => handleCancelToggle(selectedEvent)}
+      />
     </Segment>
   );
 }
