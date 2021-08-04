@@ -46,3 +46,7 @@ export const addEventToFirestore = (event: Event) => {
 export const updateEventInFirestore = (event: Event) => {
   return db.collection("events").doc(event.id).update(event);
 };
+
+export const deleteEventInFirestore = (eventId: string) => {
+  return db.collection("events").doc(eventId).delete();
+};
