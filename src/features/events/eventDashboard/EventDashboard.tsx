@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
-import {
-  asyncActionError,
-  asyncActionFinish,
-  asyncActionStart,
-} from "../../../app/async/asyncReducer";
-import {
-  dataFromSnapshot,
-  getEventsFromFirestore,
-} from "../../../app/firestore/firestoreService";
+import { listenToEventsFromFirestore } from "../../../app/firestore/firestoreService";
+import useFirestoreCollection from "../../../app/hooks/useFirestoreCollection";
 import { RootState } from "../../../app/store/rootReducer";
 import { listenToEvents } from "../eventActions";
 import EventFilters from "./EventFilters";
@@ -21,24 +14,11 @@ export default function EventDashboard() {
   const { events } = useSelector((state: RootState) => state.event);
   const { loading } = useSelector((state: RootState) => state.async);
 
-  useEffect(() => {
-    dispatch(asyncActionStart());
-    const unsubscribe = getEventsFromFirestore({
-      next: (snapshot: any) => {
-        dispatch(
-          listenToEvents(
-            snapshot.docs.map((docSnapshot: any) =>
-              dataFromSnapshot(docSnapshot)
-            )
-          )
-        );
-        dispatch(asyncActionFinish());
-      },
-      error: (error: any) => dispatch(asyncActionError(error)),
-      complete: () => console.log("you will never see this message"),
-    });
-    return unsubscribe;
-  }, [dispatch]);
+  useFirestoreCollection({
+    query: () => listenToEventsFromFirestore(),
+    data: (events: any) => dispatch(listenToEvents(events)),
+    deps: [dispatch],
+  });
 
   return (
     <Grid>
