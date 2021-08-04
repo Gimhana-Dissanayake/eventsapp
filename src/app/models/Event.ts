@@ -11,4 +11,5 @@ export interface Event {
   hostedBy: string;
   hostPhotoURL: string;
   attendees: Attendee[];
+  isCancelled?: boolean;
 }

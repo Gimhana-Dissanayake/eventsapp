@@ -11,6 +11,7 @@ import MyTextArea from "../../../app/common/form/MyTextArea";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import {
   addEventToFirestore,
+  cancelEventToggle,
   listenToEventFromFirestore,
   updateEventInFirestore,
 } from "../../../app/firestore/firestoreService";
@@ -98,6 +99,20 @@ export default function EventForm(props: RouteComponentProps) {
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm a"
             />
+
+            {selectedEvent && (
+              <Button
+                type="button"
+                floated="left"
+                color={selectedEvent.isCancelled ? "green" : "red"}
+                content={
+                  selectedEvent.isCancelled
+                    ? "Reactivate Event"
+                    : "Cancel Event"
+                }
+                onClick={() => cancelEventToggle(selectedEvent)}
+              />
+            )}
 
             <Button
               type="submit"
