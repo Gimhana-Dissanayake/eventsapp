@@ -11,12 +11,19 @@ interface Props {
   query: any;
   data: any;
   deps: any;
+  shouldExecute?: boolean;
 }
 
-export default function useFirestoreDoc({ query, data, deps }: Props) {
+export default function useFirestoreDoc({
+  query,
+  data,
+  deps,
+  shouldExecute = true,
+}: Props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!shouldExecute) return;
     dispatch(asyncActionStart());
     const unsubscribe = query().onSnapshot(
       (snapshot: any) => {

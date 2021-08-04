@@ -23,7 +23,7 @@ export const dataFromSnapshot = (snapshot: any) => {
 };
 
 export const listenToEventsFromFirestore = () => {
-  return db.collection("events");
+  return db.collection("events").orderBy("date");
 };
 
 export const listenToEventFromFirestore = (eventId: any) => {

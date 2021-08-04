@@ -49,13 +49,13 @@ export default function EventForm(props: RouteComponentProps) {
   });
 
   useFirestoreDoc({
+    shouldExecute: !!params.id,
     query: () => listenToEventFromFirestore(params.id),
     data: (event: any) => dispatch(listenToEvents([event])),
     deps: [params.id, dispatch],
   });
 
-  if (loading || (!selectedEvent && !error))
-    return <LoadingComponent content="Loading event..." />;
+  if (loading) return <LoadingComponent content="Loading event..." />;
 
   if (error) return <Redirect to="/error" />;
 
