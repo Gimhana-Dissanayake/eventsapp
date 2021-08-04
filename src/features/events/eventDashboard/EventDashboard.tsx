@@ -2,6 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "semantic-ui-react";
 import {
+  asyncActionError,
+  asyncActionFinish,
+  asyncActionStart,
+} from "../../../app/async/asyncReducer";
+import {
   dataFromSnapshot,
   getEventsFromFirestore,
 } from "../../../app/firestore/firestoreService";
@@ -17,16 +22,20 @@ export default function EventDashboard() {
   const { loading } = useSelector((state: RootState) => state.async);
 
   useEffect(() => {
+    dispatch(asyncActionStart());
     const unsubscribe = getEventsFromFirestore({
-      next: (snapshot: any) =>
+      next: (snapshot: any) => {
         dispatch(
           listenToEvents(
             snapshot.docs.map((docSnapshot: any) =>
               dataFromSnapshot(docSnapshot)
             )
           )
-        ),
-      error: (error: any) => console.log(error),
+        );
+        dispatch(asyncActionFinish());
+      },
+      error: (error: any) => dispatch(asyncActionError(error)),
+      complete: () => console.log("you will never see this message"),
     });
     return unsubscribe;
   }, [dispatch]);
