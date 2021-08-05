@@ -56,3 +56,7 @@ export function cancelEventToggle(event: any) {
     isCancelled: !event.isCancelled,
   });
 }
+
+export function signOutFirebase() {
+  return firebase.auth().signOut();
+}
