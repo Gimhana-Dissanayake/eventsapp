@@ -15,6 +15,7 @@ const SignedOutMenu = () => {
         onClick={() => dispatch(openModal({ modalType: "LoginForm" }))}
       />
       <Button
+        onClick={() => dispatch(openModal({ modalType: "RegisterForm" }))}
         basic
         inverted
         content="Register"
