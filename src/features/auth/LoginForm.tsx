@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import MyTextInput from "../../app/common/form/MyTextInput";
 import { closeModal } from "../../app/common/modals/modalReducer";
 import ModalWrapper from "../../app/common/modals/ModalWrapper";
-import { signInUser } from "./authAction";
+import { signInWithEmail } from "../../app/firestore/firebaseService";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -19,10 +19,15 @@ const LoginForm = () => {
           email: Yup.string().required().email(),
           password: Yup.string().required(),
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          dispatch(signInUser(values));
-          setSubmitting(false);
-          dispatch(closeModal());
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            await signInWithEmail(values);
+            setSubmitting(false);
+            dispatch(closeModal());
+          } catch (error) {
+            setSubmitting(false);
+            console.log(error);
+          }
         }}
       >
         {({ isSubmitting, isValid, dirty }) => (
