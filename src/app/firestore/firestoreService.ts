@@ -60,3 +60,11 @@ export function cancelEventToggle(event: any) {
 export function signOutFirebase() {
   return firebase.auth().signOut();
 }
+
+export function setUserProfileData(user: any) {
+  return db.collection("users").doc(user.uid).set({
+    displayName: user.displayName,
+    email: user.email,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+}
