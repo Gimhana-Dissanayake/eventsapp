@@ -14,7 +14,7 @@ const SignedInMenu = () => {
     try {
       await signOutFirebase();
       history.push("/");
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error.message);
     }
   };
@@ -35,6 +35,12 @@ const SignedInMenu = () => {
             icon="plus"
           />
           <Dropdown.Item text="My profile" icon="user" />
+          <Dropdown.Item
+            as={Link}
+            to="/account"
+            text="My account"
+            icon="settings"
+          />
           <Dropdown.Item text="Sign out" icon="power" onClick={handleSignOut} />
         </Dropdown.Menu>
       </Dropdown>
