@@ -3,10 +3,10 @@ import React from "react";
 import { Button } from "semantic-ui-react";
 import MyTextInput from "../../../app/common/form/MyTextInput";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { updateUserProfile } from "../../../app/firestore/firestoreService";
 
 const ProfileForm = (props: any) => {
-  console.log(props);
-
   return (
     <Formik
       initialValues={{
@@ -16,7 +16,15 @@ const ProfileForm = (props: any) => {
       validationSchema={Yup.object({
         displayName: Yup.string().required(),
       })}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          await updateUserProfile(values);
+        } catch (error: any) {
+          toast.error(error.message);
+        } finally {
+          setSubmitting(false);
+        }
+      }}
     >
       {({ isSubmitting, isValid, dirty }) => (
         <Form className="ui form">
