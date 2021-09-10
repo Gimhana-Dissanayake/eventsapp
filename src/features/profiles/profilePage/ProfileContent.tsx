@@ -1,9 +1,10 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
+import AboutTab from "./AboutTab";
 
 const ProfileContent = (props: any) => {
   const panes = [
-    { menuItem: "About", render: () => <Tab.Pane>About User</Tab.Pane> },
+    { menuItem: "About", render: () => <AboutTab profile={props.profile} /> },
     { menuItem: "Photos", render: () => <Tab.Pane>Photos</Tab.Pane> },
     { menuItem: "Event", render: () => <Tab.Pane>Events</Tab.Pane> },
     { menuItem: "Followers", render: () => <Tab.Pane>Followers</Tab.Pane> },
