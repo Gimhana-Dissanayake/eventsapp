@@ -15,12 +15,14 @@ const AboutTab = (props: any) => {
             icon="user"
             content={`About ${props.profile.displayName}`}
           />
-          <Button
-            onClick={() => setEditMode(!editMode)}
-            floated="right"
-            basic
-            content={editMode ? "Cancel" : "Edit"}
-          />
+          {props.isCurrentUser && (
+            <Button
+              onClick={() => setEditMode(!editMode)}
+              floated="right"
+              basic
+              content={editMode ? "Cancel" : "Edit"}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={16}>
           {editMode ? (

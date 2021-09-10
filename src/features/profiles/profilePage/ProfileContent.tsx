@@ -4,7 +4,12 @@ import AboutTab from "./AboutTab";
 
 const ProfileContent = (props: any) => {
   const panes = [
-    { menuItem: "About", render: () => <AboutTab profile={props.profile} /> },
+    {
+      menuItem: "About",
+      render: () => (
+        <AboutTab profile={props.profile} isCurrentUser={props.isCurrentUser} />
+      ),
+    },
     { menuItem: "Photos", render: () => <Tab.Pane>Photos</Tab.Pane> },
     { menuItem: "Event", render: () => <Tab.Pane>Events</Tab.Pane> },
     { menuItem: "Followers", render: () => <Tab.Pane>Followers</Tab.Pane> },
