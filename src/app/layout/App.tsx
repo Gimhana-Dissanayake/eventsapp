@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Container } from "semantic-ui-react";
@@ -11,9 +12,14 @@ import NavBar from "../../features/nav/NavBar";
 import Sandbox from "../../features/sandbox/Sandbox";
 import { ErrorComponent } from "../common/errors/ErrorComponent";
 import ModalManager from "../common/modals/ModalManager";
+import { RootState } from "../store/rootReducer";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
   const { key } = useLocation();
+  const { initialized } = useSelector((state: RootState) => state.async);
+
+  if (!initialized) return <LoadingComponent content="Loading app..." />;
 
   return (
     <>

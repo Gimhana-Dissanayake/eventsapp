@@ -12,8 +12,8 @@ const SignedInMenu = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOutFirebase();
       history.push("/");
+      await signOutFirebase();
     } catch (error: any) {
       toast.error(error.message);
     }
