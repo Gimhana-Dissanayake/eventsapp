@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button, Card, Grid, Header, Image, Tab } from "semantic-ui-react";
+import PhotoUploadWidget from "../../../app/common/photos/PhotoUploadWidget";
 
 const PhotosTab = (props: any) => {
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
 
   return (
     <Tab.Pane>
@@ -20,7 +21,7 @@ const PhotosTab = (props: any) => {
         </Grid.Column>
         <Grid.Column width={16}>
           {editMode ? (
-            <p>Photo widget will go here</p>
+            <PhotoUploadWidget />
           ) : (
             <Card.Group itemsPerRow={5}>
               <Card>
