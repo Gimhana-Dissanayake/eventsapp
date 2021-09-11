@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Button, Card, Grid, Header, Image, Tab } from "semantic-ui-react";
 import PhotoUploadWidget from "../../../app/common/photos/PhotoUploadWidget";
-import { getUserPhotos } from "../../../app/firestore/firestoreService";
+import {
+  getUserPhotos,
+  setMainPhoto,
+} from "../../../app/firestore/firestoreService";
 import useFirestoreCollection from "../../../app/hooks/useFirestoreCollection";
 import { RootState } from "../../../app/store/rootReducer";
 import { listenToUserPhotos } from "../profileActions";
@@ -12,12 +16,24 @@ const PhotosTab = (props: any) => {
   const [editMode, setEditMode] = useState(false);
   const { loading } = useSelector((state: RootState) => state.async);
   const { photos } = useSelector((state: RootState) => state.profile);
+  const [updating, setUpdating] = useState({ isUpdating: false, target: null });
 
   useFirestoreCollection({
     query: () => getUserPhotos(props.profile.id),
     data: (photos: any) => dispatch(listenToUserPhotos(photos)),
     deps: [props.profile.id, dispatch],
   });
+
+  async function handleSetMainPhoto(photo: any, target: any) {
+    setUpdating({ isUpdating: true, target });
+    try {
+      await setMainPhoto(photo);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setUpdating({ isUpdating: false, target: null });
+    }
+  }
 
   return (
     <Tab.Pane laoding={loading}>
@@ -42,7 +58,18 @@ const PhotosTab = (props: any) => {
                 <Card key={photo.id}>
                   <Image src={photo.url || "/assets/user.png"} />
                   <Button.Group fluid width={2}>
-                    <Button basic color="green" content="Main" />
+                    <Button
+                      name={photo.id}
+                      loading={
+                        updating.isUpdating && updating.target === photo.id
+                      }
+                      onClick={(e: any) => {
+                        handleSetMainPhoto(photo, e.target.name);
+                      }}
+                      basic
+                      color="green"
+                      content="Main"
+                    />
                     <Button basic color="red" icon="trash" />
                   </Button.Group>
                 </Card>
