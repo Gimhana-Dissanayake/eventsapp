@@ -88,3 +88,33 @@ export async function updateUserProfile(profile: any) {
     return await db.collection("users").doc(user?.uid).update(profile);
   } catch (error: any) {}
 }
+
+export async function updateUserProfilePhoto(
+  downloadURL: string,
+  filename: string
+) {
+  const user = firebase.auth().currentUser;
+  const userDocRef = db.collection("user").doc(user?.uid);
+
+  try {
+    const userDoc = await userDocRef.get();
+    if (!userDoc.data()?.photoURL) {
+      await db.collection("users").doc(user?.uid).update({
+        photoURL: downloadURL,
+      });
+      await user?.updateProfile({
+        photoURL: downloadURL,
+      });
+    }
+    return await db
+      .collection("users")
+      .doc(user?.uid)
+      .collection("photos")
+      .add({
+        name: filename,
+        url: downloadURL,
+      });
+  } catch (error: any) {
+    throw error;
+  }
+}
