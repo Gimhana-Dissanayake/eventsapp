@@ -6,6 +6,8 @@ import { Event } from "../../../app/models/Event";
 
 interface Props {
   event: Event;
+  isGoing: boolean;
+  isHost: boolean;
 }
 
 const EventDetailedHeader = (props: Props) => {
@@ -50,18 +52,27 @@ const EventDetailedHeader = (props: Props) => {
         </Segment>
       </Segment>
 
-      <Segment attached="bottom">
-        <Button>Cancel My Place</Button>
-        <Button color="teal">JOIN THIS EVENT</Button>
+      <Segment attached="bottom" clearing>
+        {!props.isHost && (
+          <>
+            {props.isGoing ? (
+              <Button>Cancel My Place</Button>
+            ) : (
+              <Button color="teal">JOIN THIS EVENT</Button>
+            )}
+          </>
+        )}
 
-        <Button
-          as={Link}
-          to={`/manage/${props.event.id}`}
-          color="orange"
-          floated="right"
-        >
-          Manage Event
-        </Button>
+        {props.isHost && (
+          <Button
+            as={Link}
+            to={`/manage/${props.event.id}`}
+            color="orange"
+            floated="right"
+          >
+            Manage Event
+          </Button>
+        )}
       </Segment>
     </Segment.Group>
   );

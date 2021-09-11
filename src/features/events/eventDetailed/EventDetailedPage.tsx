@@ -14,6 +14,7 @@ import EventDetailedSidebar from "./EventDetailedSidebar";
 
 const EventDetailedPage = (props: RouteComponentProps) => {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state: RootState) => state.auth);
 
   const params: any = props.match.params;
 
@@ -22,6 +23,8 @@ const EventDetailedPage = (props: RouteComponentProps) => {
   );
 
   const { loading, error } = useSelector((state: RootState) => state.async);
+  const isHost = event?.hostUid === currentUser.uid;
+  const isGoing = event?.attendees?.some((a: any) => a.id === currentUser.uid);
 
   useFirestoreDoc({
     query: () => listenToEventFromFirestore(params.id),
@@ -37,7 +40,7 @@ const EventDetailedPage = (props: RouteComponentProps) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventDetailedHeader event={event} />
+        <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} />
         <EventDetailedInfo event={event} />
         <EventDetailedChat />
       </Grid.Column>
