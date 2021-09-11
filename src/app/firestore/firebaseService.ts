@@ -49,5 +49,12 @@ export function updateUserPassword(creds: any) {
 export function uploadToFirebaseStorage(file: any, filename: any) {
   const user = firebase.auth().currentUser;
   const storageRef = firebase.storage().ref();
-  return storageRef.child(`${user?.uid}/user_image/${filename}`).put(file);
+  return storageRef.child(`${user?.uid}/user_images/${filename}`).put(file);
+}
+
+export function deleteFromFirebaseStorage(filename: any) {
+  const userUid = firebase.auth().currentUser?.uid;
+  const storageRef = firebase.storage().ref();
+  const photoRef = storageRef.child(`${userUid}/user_images/${filename}`);
+  return photoRef.delete();
 }

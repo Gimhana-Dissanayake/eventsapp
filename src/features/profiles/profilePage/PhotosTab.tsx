@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Button, Card, Grid, Header, Image, Tab } from "semantic-ui-react";
 import PhotoUploadWidget from "../../../app/common/photos/PhotoUploadWidget";
+import { deleteFromFirebaseStorage } from "../../../app/firestore/firebaseService";
 import {
+  deletePhotoFromCollection,
   getUserPhotos,
   setMainPhoto,
 } from "../../../app/firestore/firestoreService";
@@ -17,6 +19,7 @@ const PhotosTab = (props: any) => {
   const { loading } = useSelector((state: RootState) => state.async);
   const { photos } = useSelector((state: RootState) => state.profile);
   const [updating, setUpdating] = useState({ isUpdating: false, target: null });
+  const [deleting, setDeleting] = useState({ isDeleting: false, target: null });
 
   useFirestoreCollection({
     query: () => getUserPhotos(props.profile.id),
@@ -32,6 +35,18 @@ const PhotosTab = (props: any) => {
       toast.error(error.message);
     } finally {
       setUpdating({ isUpdating: false, target: null });
+    }
+  }
+
+  async function handleDeletePhoto(photo: any, target: any) {
+    setDeleting({ isDeleting: true, target });
+    try {
+      await deleteFromFirebaseStorage(photo.name);
+      await deletePhotoFromCollection(photo.id);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setDeleting({ isDeleting: false, target: null });
     }
   }
 
@@ -66,11 +81,24 @@ const PhotosTab = (props: any) => {
                       onClick={(e: any) => {
                         handleSetMainPhoto(photo, e.target.name);
                       }}
+                      disabled={photo.url === props.profile.photoURL}
                       basic
                       color="green"
                       content="Main"
                     />
-                    <Button basic color="red" icon="trash" />
+                    <Button
+                      name={photo.id}
+                      onClick={(e: any) =>
+                        handleDeletePhoto(photo, e.target.name)
+                      }
+                      loading={
+                        deleting.isDeleting && deleting.target === photo.id
+                      }
+                      disabled={photo.url === props.profile.photoURL}
+                      basic
+                      color="red"
+                      icon="trash"
+                    />
                   </Button.Group>
                 </Card>
               ))}
