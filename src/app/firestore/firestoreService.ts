@@ -26,7 +26,6 @@ export const listenToEventsFromFirestore = (predicate: any) => {
   let eventsRef = db.collection("events").orderBy("date");
   switch (predicate.get("filter")) {
     case "isGoing":
-      console.log("came here");
       return eventsRef
         .where("attendeeIds", "array-contains", user?.uid)
         .where("date", ">=", predicate.get("startDate"));
@@ -35,7 +34,6 @@ export const listenToEventsFromFirestore = (predicate: any) => {
         .where("hostUid", "==", user?.uid)
         .where("date", ">=", predicate.get("startDate"));
     default:
-      console.log("yoyo");
       return eventsRef.where("date", ">=", predicate.get("startDate"));
   }
 };
@@ -196,7 +194,7 @@ export async function cancelUserAttendance(event: any) {
   } catch (error: any) {}
 }
 
-export function getUserEventQuery(activeTab: any, userUid: any) {
+export function getUserEventsQuery(activeTab: any, userUid: any) {
   let eventsRef = db.collection("events");
   const today = new Date();
 
@@ -211,6 +209,7 @@ export function getUserEventQuery(activeTab: any, userUid: any) {
     default:
       return eventsRef
         .where("attendeeIds", "array-contains", userUid)
+        .where("date", ">=", today)
         .orderBy("date");
   }
 }

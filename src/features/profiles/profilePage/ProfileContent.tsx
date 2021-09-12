@@ -21,7 +21,7 @@ const ProfileContent = (props: any) => {
         />
       ),
     },
-    { menuItem: "Events", render: () => <EventsTab /> },
+    { menuItem: "Events", render: () => <EventsTab profile={props.profile} /> },
     { menuItem: "Followers", render: () => <Tab.Pane>Followers</Tab.Pane> },
     { menuItem: "Following", render: () => <Tab.Pane>Following</Tab.Pane> },
   ];

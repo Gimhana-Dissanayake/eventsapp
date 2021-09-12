@@ -21,7 +21,7 @@ export default function EventListItem(props: Props) {
               <Item.Header content={props.event.title} />
               <Item.Description>
                 Hosted by{" "}
-                <Link to={`profile/${props.event.hostedBy}`}>
+                <Link to={`profile/${props.event.hostUid}`}>
                   {props.event.hostedBy}
                 </Link>
               </Item.Description>
