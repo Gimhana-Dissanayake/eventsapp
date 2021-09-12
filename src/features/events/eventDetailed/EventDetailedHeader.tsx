@@ -73,7 +73,12 @@ const EventDetailedHeader = (props: Props) => {
                 />
                 <p>{format(props.event.date, "MMMM d, yyyy h:mm a")}</p>
                 <p>
-                  Hosted by <strong>{props.event.hostedBy}</strong>
+                  Hosted by{" "}
+                  <strong>
+                    <Link to={`/profile/${props.event.hostedBy}`}>
+                      {props.event.hostedBy}
+                    </Link>
+                  </strong>
                 </p>
               </Item.Content>
             </Item>

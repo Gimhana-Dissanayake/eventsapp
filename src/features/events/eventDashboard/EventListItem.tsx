@@ -20,7 +20,10 @@ export default function EventListItem(props: Props) {
             <Item.Content>
               <Item.Header content={props.event.title} />
               <Item.Description>
-                Hosted by {props.event.hostedBy}
+                Hosted by{" "}
+                <Link to={`profile/${props.event.hostedBy}`}>
+                  {props.event.hostedBy}
+                </Link>
               </Item.Description>
               {props.event.isCancelled && (
                 <Label
