@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
-import { addUserAttendance } from "../../../app/firestore/firestoreService";
+import {
+  addUserAttendance,
+  cancelUserAttendance,
+} from "../../../app/firestore/firestoreService";
 import { Event } from "../../../app/models/Event";
 
 interface Props {
@@ -32,6 +35,17 @@ const EventDetailedHeader = (props: Props) => {
     setLoading(true);
     try {
       await addUserAttendance(props.event);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleUserLeaveEvent() {
+    setLoading(true);
+    try {
+      await cancelUserAttendance(props.event);
     } catch (error: any) {
       toast.error(error.message);
     } finally {
@@ -71,7 +85,9 @@ const EventDetailedHeader = (props: Props) => {
         {!props.isHost && (
           <>
             {props.isGoing ? (
-              <Button>Cancel My Place</Button>
+              <Button onClick={handleUserLeaveEvent} loading={loading}>
+                Cancel My Place
+              </Button>
             ) : (
               <Button
                 onClick={handleUserJoinEvent}
