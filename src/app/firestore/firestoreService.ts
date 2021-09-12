@@ -21,8 +21,23 @@ export const dataFromSnapshot = (snapshot: any) => {
   };
 };
 
-export const listenToEventsFromFirestore = () => {
-  return db.collection("events").orderBy("date");
+export const listenToEventsFromFirestore = (predicate: any) => {
+  const user = firebase.auth().currentUser;
+  let eventsRef = db.collection("events").orderBy("date");
+  switch (predicate.get("filter")) {
+    case "isGoing":
+      console.log("came here");
+      return eventsRef
+        .where("attendeeIds", "array-contains", user?.uid)
+        .where("date", ">=", predicate.get("startDate"));
+    case "isHost":
+      return eventsRef
+        .where("hostUid", "==", user?.uid)
+        .where("date", ">=", predicate.get("startDate"));
+    default:
+      console.log("yoyo");
+      return eventsRef.where("date", ">=", predicate.get("startDate"));
+  }
 };
 
 export const listenToEventFromFirestore = (eventId: any) => {

@@ -21,8 +21,8 @@ const EventFilters = (props: any) => {
         />
         <Menu.Item
           content="I'm hosting"
-          active={props.predicate.get("filter") === "isHosting"}
-          onClick={() => props.setPredicate("filter", "isHosting")}
+          active={props.predicate.get("filter") === "isHost"}
+          onClick={() => props.setPredicate("filter", "isHost")}
           disabled={props.loading}
         />
       </Menu>
