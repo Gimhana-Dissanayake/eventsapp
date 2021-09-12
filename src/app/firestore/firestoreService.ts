@@ -195,3 +195,22 @@ export async function cancelUserAttendance(event: any) {
       });
   } catch (error: any) {}
 }
+
+export function getUserEventQuery(activeTab: any, userUid: any) {
+  let eventsRef = db.collection("events");
+  const today = new Date();
+
+  switch (activeTab) {
+    case 1:
+      return eventsRef
+        .where("attendeeIds", "array-contains", userUid)
+        .where("date", "<=", today)
+        .orderBy("date", "desc");
+    case 2:
+      return eventsRef.where("hostUid", "==", userUid).orderBy("date");
+    default:
+      return eventsRef
+        .where("attendeeIds", "array-contains", userUid)
+        .orderBy("date");
+  }
+}
