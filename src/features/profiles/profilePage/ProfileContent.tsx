@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
 import AboutTab from "./AboutTab";
+import EventsTab from "./EventsTab";
 import PhotosTab from "./PhotosTab";
 
 const ProfileContent = (props: any) => {
@@ -20,7 +21,7 @@ const ProfileContent = (props: any) => {
         />
       ),
     },
-    { menuItem: "Event", render: () => <Tab.Pane>Events</Tab.Pane> },
+    { menuItem: "Events", render: () => <EventsTab /> },
     { menuItem: "Followers", render: () => <Tab.Pane>Followers</Tab.Pane> },
     { menuItem: "Following", render: () => <Tab.Pane>Following</Tab.Pane> },
   ];
@@ -30,7 +31,6 @@ const ProfileContent = (props: any) => {
       menu={{ fluid: true, vertical: true }}
       menuPosition="right"
       panes={panes}
-      activeIndex={1}
     />
   );
 };
